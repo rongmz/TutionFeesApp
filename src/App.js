@@ -2,6 +2,9 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import AddStudentScreen from './screens/AddStudentScreen';
+import StudentFeesDetailsScreen from './screens/StudentFeesDetailsScreen';
 import appInfo from '../app.json';
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
 import appColors from './appColors';
@@ -22,7 +25,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     flexGrow: 1,
     textAlign: 'left',
-    paddingVertical: 15,
+    paddingVertical: 10,
     paddingHorizontal: 10,
   },
 });
@@ -46,10 +49,11 @@ const Header = ({ scene, previous, navigation }) => {
         onPress={navigation.goBack}
       />}
       <Text title={title} style={styles.headerContent} >{title}</Text>
-      <IconButton size={20} style={styles.headerActionBtn} color={appColors.textOnPrimary}
-        icon={p => <MaterialCommunityIcons {...p} name="tune" />}
-        onPress={() => navigation.navigate('Settings')}
-      />
+      {scene.route.name === 'Home' &&
+        <IconButton size={20} style={styles.headerActionBtn} color={appColors.textOnPrimary}
+          icon={p => <MaterialCommunityIcons {...p} name="tune" />}
+          onPress={() => navigation.navigate('Settings')}
+        />}
     </View>
   );
 }
@@ -66,6 +70,9 @@ export default ({ }) => {
           header: p => <Header {...p} />,
         }}>
           <Stack.Screen name="Home" component={HomeScreen} options={{ title: appInfo.displayName }} />
+          <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: 'Settings' }} />
+          <Stack.Screen name="AddStudent" component={AddStudentScreen} options={{ title: 'Add Student' }} />
+          <Stack.Screen name="StudentFeesDetails" component={StudentFeesDetailsScreen} options={({ route }) => ({ title: route.params.name })} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
